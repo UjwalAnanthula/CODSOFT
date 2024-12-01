@@ -177,4 +177,13 @@ The GUI includes :
 - **Beginner-Friendly** : Focuses on essential Python concepts such as file handling, string manipulation, and event-driven programming.  
 - **Scalable** : Additional features like importing/exporting contacts, advanced search options, or integrating with an online database can be added.  
 
-This project is ideal for learning about data management, GUI design, and event handling in Python. Would you like a code implementation for this?
+This project is ideal for learning about data management, GUI design, and event handling in Python.
+
+<img width="497" alt="Contact_Book1" src="https://github.com/user-attachments/assets/3252de72-6fd6-486e-a84d-beaf5cb59c65">
+
+<img width="473" alt="Contact_Book2" src="https://github.com/user-attachments/assets/f2c86abe-d67e-42f9-9f51-788a59c92464">
+
+<img width="481" alt="Contact_Book3" src="https://github.com/user-attachments/assets/a18218bb-8204-43cd-b28c-ac5160f0860e">
+
+<img width="499" alt="Contact_Book4" src="https://github.com/user-attachments/assets/1e79f300-891d-4d10-b800-8684edde1126">
+
