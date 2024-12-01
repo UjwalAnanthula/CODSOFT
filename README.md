@@ -38,6 +38,8 @@ This project is a simple yet practical application demonstrating GUI design and 
 
 <img width="535" alt="To_Do_List" src="https://github.com/user-attachments/assets/a28e71d0-dcdd-4773-9f47-c0488016427d">
 
+
+
 Program-2.### **Password Generator Program : Brief Description**
 
 - **Programming Language Used** :  
@@ -69,6 +71,8 @@ Program-2.### **Password Generator Program : Brief Description**
   A user-friendly GUI allows intuitive interaction, with labels, input fields, and buttons to simplify the process of generating passwords.
 
 This project is a practical application that emphasizes randomization techniques and GUI design in Python. It's useful for learning about string manipulation, secure randomization, and event handling in GUI applications.
+
+<img width="340" alt="Password_generator" src="https://github.com/user-attachments/assets/26fc9697-e4de-4333-b5e2-592ac6867dd5">
 
 
 
