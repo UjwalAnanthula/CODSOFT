@@ -1,0 +1,151 @@
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+import json
+import os
+
+# File to store contacts
+CONTACTS_FILE = "contacts.json"
+
+# To Load existing contacts
+if os.path.exists(CONTACTS_FILE):
+    with open(CONTACTS_FILE, "r") as file:
+        contacts = json.load(file)
+else:
+    contacts = {}
+
+# To Save contacts to file
+def save_contacts():
+    with open(CONTACTS_FILE, "w") as file:
+        json.dump(contacts, file, indent=4)
+
+# Add a new contact
+def add_contact():
+    name = name_entry.get().strip()
+    phone = phone_entry.get().strip()
+    email = email_entry.get().strip()
+    address = address_entry.get("1.0", tk.END).strip()
+
+    if not name or not phone:
+        messagebox.showerror("Error", "Name and Phone number are required!")
+        return
+
+    if name in contacts:
+        messagebox.showerror("Error", "Contact already exists!")
+        return
+
+    contacts[name] = {"Phone": phone, "Email": email, "Address": address}
+    save_contacts()
+    refresh_contact_list()
+    messagebox.showinfo("Success", "Contact added successfully!")
+    clear_fields()
+
+# To View all contacts
+def refresh_contact_list():
+    contact_list.delete(0, tk.END)
+    for name, details in contacts.items():
+        contact_list.insert(tk.END, f"{name} - {details['Phone']}")
+
+# To Search for a contact
+def search_contact():
+    query = search_entry.get().strip()
+    if not query:
+        messagebox.showerror("Error", "Enter a name or phone number to search!")
+        return
+
+    results = []
+    for name, details in contacts.items():
+        if query.lower() in name.lower() or query in details['Phone']:
+            results.append(f"{name} - {details['Phone']}")
+
+    if results:
+        contact_list.delete(0, tk.END)
+        for result in results:
+            contact_list.insert(tk.END, result)
+    else:
+        messagebox.showinfo("No Results", "No matching contacts found.")
+
+# To Update a contact
+def update_contact():
+    selected = contact_list.get(tk.ACTIVE)
+    if not selected:
+        messagebox.showerror("Error", "No contact selected!")
+        return
+
+    name = selected.split(" - ")[0]
+    if name not in contacts:
+        messagebox.showerror("Error", "Contact not found!")
+        return
+
+    new_phone = simpledialog.askstring("Update Phone", "Enter new phone number:", initialvalue=contacts[name]["Phone"])
+    new_email = simpledialog.askstring("Update Email", "Enter new email:", initialvalue=contacts[name]["Email"])
+    new_address = simpledialog.askstring("Update Address", "Enter new address:", initialvalue=contacts[name]["Address"])
+
+    if new_phone:
+        contacts[name]["Phone"] = new_phone
+    if new_email:
+        contacts[name]["Email"] = new_email
+    if new_address:
+        contacts[name]["Address"] = new_address
+
+    save_contacts()
+    refresh_contact_list()
+    messagebox.showinfo("Success", "Contact updated successfully!")
+
+# To Delete a contact
+def delete_contact():
+    selected = contact_list.get(tk.ACTIVE)
+    if not selected:
+        messagebox.showerror("Error", "No contact selected!")
+        return
+
+    name = selected.split(" - ")[0]
+    if name in contacts:
+        del contacts[name]
+        save_contacts()
+        refresh_contact_list()
+        messagebox.showinfo("Success", "Contact deleted successfully!")
+
+# To Clear input fields
+def clear_fields():
+    name_entry.delete(0, tk.END)
+    phone_entry.delete(0, tk.END)
+    email_entry.delete(0, tk.END)
+    address_entry.delete("1.0", tk.END)
+
+# GUI Setup
+root = tk.Tk()
+root.title("Contact Book")
+root.geometry("600x400")
+
+# Input fields
+tk.Label(root, text="Name:").grid(row=0, column=0, sticky="w", padx=10, pady=5)
+name_entry = tk.Entry(root, width=40)
+name_entry.grid(row=0, column=1, padx=10, pady=5)
+
+tk.Label(root, text="Phone:").grid(row=1, column=0, sticky="w", padx=10, pady=5)
+phone_entry = tk.Entry(root, width=40)
+phone_entry.grid(row=1, column=1, padx=10, pady=5)
+
+tk.Label(root, text="Email:").grid(row=2, column=0, sticky="w", padx=10, pady=5)
+email_entry = tk.Entry(root, width=40)
+email_entry.grid(row=2, column=1, padx=10, pady=5)
+
+tk.Label(root, text="Address:").grid(row=3, column=0, sticky="nw", padx=10, pady=5)
+address_entry = tk.Text(root, width=30, height=4)
+address_entry.grid(row=3, column=1, padx=10, pady=5)
+
+# All Buttons
+tk.Button(root, text="Add Contact", command=add_contact).grid(row=4, column=0, padx=10, pady=10)
+tk.Button(root, text="Search", command=search_contact).grid(row=4, column=1, padx=10, pady=10, sticky="w")
+tk.Button(root, text="Update Contact", command=update_contact).grid(row=4, column=1, padx=10, pady=10)
+tk.Button(root, text="Delete Contact", command=delete_contact).grid(row=4, column=1, padx=10, pady=10, sticky="e")
+
+# Contact list
+tk.Label(root, text="Contacts:").grid(row=5, column=0, sticky="nw", padx=10, pady=5)
+contact_list = tk.Listbox(root, width=60, height=10)
+contact_list.grid(row=5, column=1, padx=10, pady=5)
+
+# Initialize contact list
+refresh_contact_list()
+
+root.mainloop()
