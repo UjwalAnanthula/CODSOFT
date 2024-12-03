@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 import json
 import os
+root = tk.Tk()
 
 # File to store contacts
 CONTACTS_FILE = "contacts.json"
@@ -17,6 +18,12 @@ else:
 def save_contacts():
     with open(CONTACTS_FILE, "w") as file:
         json.dump(contacts, file, indent=4)
+
+# Search field (to enable remove comments)
+'''tk.Label(root, text="Search:").grid(row=6, column=0, sticky="w", padx=10, pady=5)
+search_entry = tk.Entry(root, width=40)
+search_entry.grid(row=6, column=1, padx=10, pady=5)'''
+
 
 # Add a new contact
 def add_contact():
@@ -44,6 +51,26 @@ def refresh_contact_list():
     contact_list.delete(0, tk.END)
     for name, details in contacts.items():
         contact_list.insert(tk.END, f"{name} - {details['Phone']}")
+
+#To search a contact optional
+'''def search_contact():
+    query = search_entry.get().strip()
+    if not query:
+        messagebox.showerror("Error", "Enter a name or phone number to search!")
+        return
+
+    results = []
+    for name, details in contacts.items():
+        if query.lower() in name.lower() or query in details['Phone']:
+            results.append(f"{name} - {details['Phone']}")
+
+    if results:
+        contact_list.delete(0, tk.END)
+        for result in results:
+            contact_list.insert(tk.END, result)
+    else:
+        messagebox.showinfo("No Results", "No matching contacts found.")'''
+
 
 # To Search for a contact
 def search_contact():
